@@ -9,6 +9,7 @@ RUN apt-get install -y whiptail
 RUN apt-get install -y net-tools
 RUN mkdir /var/run/sshd
 RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN curl -L https://install.pivpn.io -o /root/install.sh
 
 # SSH login fix. Otherwise user is kicked off after login
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
@@ -20,6 +21,5 @@ RUN adduser root sudo
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-CMD curl -L https://install.pivpn.io -o ~/install.sh
 CMD echo Please type in the following command, then follow the onscreen prompts to install PiVPN:
 CMD echo bash install.sh
