@@ -21,5 +21,3 @@ RUN adduser root sudo
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-CMD echo Please type in the following command, then follow the onscreen prompts to install PiVPN:
-CMD echo bash install.sh
