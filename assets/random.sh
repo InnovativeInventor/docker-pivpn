@@ -22,6 +22,8 @@ fi
 
 # might be useful: LC_ALL=C sed s/\"//
 mkdir -p /etc/rnd
+touch /etc/rnd/random
+touch /etc/rnd/random_openssl
 chmod -R 775 /etc/rnd
 chmod 775 /etc/rnd/random
 chmod 775 /etc/rnd/random_openssl
