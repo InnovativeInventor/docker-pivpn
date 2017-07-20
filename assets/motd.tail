@@ -1,9 +1,9 @@
 ######################################################
-##                                          		##
-## 	Type pivpn to configure this container.			##
-##	Don't forget to set up pub-key auth for ssh!	##
-##													##
-##	Made by InnovativeInventor 						##
-##  https://github.com/InnovativeInventor			##
-##													##
+##                                                  ##
+##  Type pivpn to configure this  docker container. ##
+##  Don't forget to set up pub-key auth for ssh!    ##
+##                                                  ##
+##  Made by InnovativeInventor                      ##
+##  https://github.com/InnovativeInventor           ##
+##                                                  ##
 ######################################################
