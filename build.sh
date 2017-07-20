@@ -51,9 +51,11 @@ if [[ -n "$dockerisfree" ]]; then
 		then
 
 			# Creating everything, then exiting to prevent errors
+            {
     		docker rm pivpn
     		docker run --name=pivpn -d -p $port:22 innovativeinventor/docker-pivpn
 			sudo sh assets/random.sh -d pivpn -a ssh
+            } &> /dev/null
 
             # Changing root password for SSH access
             {
@@ -86,8 +88,10 @@ if [[ -n "$dockerisfree" ]]; then
 	done
 
 	# Creating everything, then exiting to prevent errors
+    {
     docker run --name=pivpn$num -d -p $port:22 innovativeinventor/docker-pivpn
 	sudo sh assets/random.sh -d pivpn$num -a ssh
+    } &> /dev/null
 
     # Changing root password for SSH access
     {
@@ -101,8 +105,10 @@ if [[ -n "$dockerisfree" ]]; then
 fi
 
 # Installing
+{
 docker run --name=pivpn -d -p $port:22 innovativeinventor/docker-pivpn
 sudo sh assets/random.sh -d pivpn -a ssh
+} &> /dev/null
 
 # Changing root password for SSH access
 {
