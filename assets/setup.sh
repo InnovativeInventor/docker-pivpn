@@ -20,7 +20,10 @@ docker cp assets/motd $DOCKER:/etc/motd
 # docker restart $DOCKER
 
 # SSHing into docker container
+{
 ssh-keygen -R [127.0.0.1]:$PORT
+} &> /dev/null
+
 echo "Logging into $DOCKER, type in your $DOCKER password"
 ssh root@127.0.0.1 -p $PORT
 echo "Done! Access your secure container by typing in: ssh root@127.0.0.1 -p $PORT"
