@@ -14,7 +14,7 @@ curl -L https://bit.ly/2uGNBbW -o assets/random.sh
 curl -L https://bit.ly/2uEmJZk -o assets/setup.sh
 
 # Getting MOTD
-curl -L https://bit.ly/2tgSzYD -o assets/motd
+curl -L https://bit.ly/2gN6TGM -o assets/motd
 
 # Checking ports
 BASE=522
