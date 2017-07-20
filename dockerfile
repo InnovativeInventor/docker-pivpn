@@ -7,6 +7,7 @@ RUN apt-get install nano
 RUN apt-get install -y curl
 RUN apt-get install -y whiptail
 RUN apt-get install -y net-tools
+RUN apt-get install -y iproute2
 RUN mkdir /var/run/sshd
 RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN curl -L https://install.pivpn.io -o /root/install.sh

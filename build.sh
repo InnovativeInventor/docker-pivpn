@@ -10,6 +10,12 @@ docker pull innovativeinventor/docker-pivpn
 mkdir -p assets
 curl -L https://bit.ly/2uGNBbW -o assets/random.sh
 
+# Getting and configuring setup.sh file
+curl -L https://bit.ly/2uEmJZk -o assets/setup.sh
+
+# Getting MOTD
+curl -L https://bit.ly/2tgSzYD -o assets/motd.tail
+
 # Checking ports
 BASE=522
 INCREMENT=1
@@ -50,7 +56,9 @@ if [[ -n "$dockerisfree" ]]; then
 			sudo sh assets/random.sh -d pivpn -a ssh
 			printf "$password\n$password\n"  | docker exec -i pivpn$ passwd root
 			echo "Done! A container with the name pivpn and the pivpn port $port has been created for you. Entropy has been added to the system from this server, and the ssh keys have been regenerated."
-			exit 10
+
+            # Setup PiVPN prompt
+            sudo sh assets/setup.sh -d pivpn -p $port
 
     	elif [[ "$response" =~ ^([nN][oO]|[nN])+$ ]]
     	then
@@ -79,11 +87,19 @@ if [[ -n "$dockerisfree" ]]; then
 	sudo sh assets/random.sh -d pivpn$num -a ssh
 	printf "$password\n$password\n"  | docker exec -i pivpn$num passwd root
     echo "Done! A container with the name pivpn$num and the pivpn port $port has been created for you. Entropy has been added to the system from this server, and the shh keys have been regenerated."
-	exit 10
+
+    # Setup PiVPN prompt
+    sudo sh assets/setup.sh -d pivpn$num -p $port
+
+    exit 10
 fi
 
 # Installing
 docker run --name=pivpn -d -p $port:22 innovativeinventor/docker-pivpn
 sudo sh assets/random.sh -d pivpn -a ssh
 printf "$password\n$password\n"  | docker exec -i pivpn passwd root
+
+# Setup PiVPN prompt
+sudo sh assets/setup.sh -d pivpn -p $port
+
 echo "Done! A container with the name pivpn and the pivpn port $port has been created for you. Entropy has been added to the system from this server, and the ssh keys have been regenerated."
