@@ -13,10 +13,11 @@ done
 # Getting latest copy of PiVPN script
 docker exec $DOCKER curl -L https://install.pivpn.io -o /usr/bin/pivpn
 docker exec $DOCKER echo "rm /usr/bin/pivpn" >> /usr/bin/pivpn
-docker exec $DOCKER chmod +x pivpn
+docker exec $DOCKER chmod +x /usr/bin/pivpn
 
 # Adding MOTD
 docker cp assets/motd.tail $DOCKER:/etc/motd.tail
+docker restart $DOCKER
 
 # SSHing into docker container
 ssh-keygen -R [127.0.0.1]:$PORT
