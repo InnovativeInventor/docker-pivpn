@@ -29,7 +29,7 @@ while [[ -n "$isfree" ]]; do
 done
 
 # Getting password for container
-echo Docker password:
+echo Docker SSH password:
 read -s password
 
 # Checking if name exists
