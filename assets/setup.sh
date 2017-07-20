@@ -16,8 +16,8 @@ docker exec $DOCKER echo "rm /usr/bin/pivpn" >> /usr/bin/pivpn
 docker exec $DOCKER chmod +x /usr/bin/pivpn
 
 # Adding MOTD
-docker cp assets/motd.tail $DOCKER:/etc/motd.tail
-docker restart $DOCKER
+docker cp assets/motd $DOCKER:/etc/motd
+# docker restart $DOCKER
 
 # SSHing into docker container
 ssh-keygen -R [127.0.0.1]:$PORT
