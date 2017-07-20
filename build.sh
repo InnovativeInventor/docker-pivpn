@@ -59,7 +59,7 @@ if [[ -n "$dockerisfree" ]]; then
 
             # Setup PiVPN prompt
             sudo sh assets/setup.sh -d pivpn -p $port
-
+            exit 10
     	elif [[ "$response" =~ ^([nN][oO]|[nN])+$ ]]
     	then
     		# Allowing to proceed
@@ -90,8 +90,8 @@ if [[ -n "$dockerisfree" ]]; then
 
     # Setup PiVPN prompt
     sudo sh assets/setup.sh -d pivpn$num -p $port
-
     exit 10
+
 fi
 
 # Installing
@@ -103,3 +103,4 @@ printf "$password\n$password\n"  | docker exec -i pivpn passwd root
 sudo sh assets/setup.sh -d pivpn -p $port
 
 echo "Done! A container with the name pivpn and the pivpn port $port has been created for you. Entropy has been added to the system from this server, and the ssh keys have been regenerated."
+exit 10
