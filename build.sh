@@ -10,7 +10,7 @@ if [[ "$1" =~ ^([vV][eE][rR][bB][oO][sS][eE]|[vV])+$ ]]; then
 fi
 
 docker=$(docker -v)
-if [[ -n "$docker" ]]; then
+if [[ ! "$docker" ]]; then
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
         sudo apt-get update
         sudo apt-get install -y apt-transport-https
