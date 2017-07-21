@@ -32,13 +32,27 @@ done
 echo Docker SSH password:
 read -s password
 
-# Checking if name exists
+echo Docker OpenVPN port:
+read expose
+
+
+echo "Which port on the host do you want to forward to $expose?"
+read forward
+
+isfree=$(lsof -i -n -P | grep $forward)
+
+while [[ -n "$isfree" ]]; do
+    echo "This port is taken, please try another one."
+    echo OpenVPN forward port:
+    read forward
+    isfree=$(lsof -i -n -P | grep $forward)
+done
 
 # Adding docker is free varible and docker is exited varible
 dockerisfree=$(docker ps -q -f name=pivpn$num)
 dockerisexited=$(docker ps -aq -f status=exited -f name=pivpn)
 
-# If statements
+# Checking if name exists
 if [[ -n "$dockerisfree" ]]; then
 
 	# Checking if it is exited
@@ -53,8 +67,9 @@ if [[ -n "$dockerisfree" ]]; then
 			# Creating everything, then exiting to prevent errors
             {
     		docker rm pivpn
-    		docker run --name=pivpn -d -p $port:22 innovativeinventor/docker-pivpn
-			sudo sh assets/random.sh -d pivpn -a ssh
+    		docker run --name=pivpn -d -p $port:22 -p $forward:$expose innovativeinventor/docker-pivpn
+            ufw allow $forward
+            sudo sh assets/random.sh -d pivpn -a ssh
             } &> /dev/null
 
             # Changing root password for SSH access
@@ -89,8 +104,9 @@ if [[ -n "$dockerisfree" ]]; then
 
 	# Creating everything, then exiting to prevent errors
     {
-    docker run --name=pivpn$num -d -p $port:22 innovativeinventor/docker-pivpn
-	sudo sh assets/random.sh -d pivpn$num -a ssh
+    docker run --name=pivpn$num -d -p $port:22 -p $forward:$expose innovativeinventor/docker-pivpn
+    ufw allow $forward
+    sudo sh assets/random.sh -d pivpn$num -a ssh
     } &> /dev/null
 
     # Changing root password for SSH access
@@ -106,7 +122,8 @@ fi
 
 # Installing
 {
-docker run --name=pivpn -d -p $port:22 innovativeinventor/docker-pivpn
+docker run --name=pivpn -d -p $port:22 -p $forward:$expose innovativeinventor/docker-pivpn
+ufw allow $forward
 sudo sh assets/random.sh -d pivpn -a ssh
 } &> /dev/null
 
