@@ -1,5 +1,4 @@
 #!/bin/bash
-echo "Making sudo, please ensure that you have verified this script's checksum"
 sudo -v
 SIZE=$((100))
 while getopts d:s:a option

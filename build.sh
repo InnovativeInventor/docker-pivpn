@@ -1,5 +1,5 @@
 #!/bin/bash
-# Script is from InnovativeInventor/pivpn, with some modifications
+# Docker script is from InnovativeInventor/docker-pivpn
 
 echo "Making sure everything is up to date . . ."
 
