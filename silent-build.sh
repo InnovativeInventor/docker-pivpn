@@ -47,7 +47,7 @@ isfree=$(lsof -i -n -P | grep $forward)
 
 while [[ -n "$isfree" ]]; do
     echo "This port is taken, please try another one." >> /var/log/docker-pivpn.log
-    echo OpenVPN forward port:
+    echo "Port is taken, please type in another port:"
     read forward
     isfree=$(lsof -i -n -P | grep $forward)
 done
