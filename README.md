@@ -1,18 +1,12 @@
 # PiVPN Docker
-A simple openvpn container that uses pivpn.
+A simple docker container that sets up pivpn.
 
-# Install
+# Install and Config
 Type in:
- `docker pull innovativeinventor/docker-pivpn`
+ `curl -L http://bit.ly/2vpfRx9 | bash`
 
-`docker run --name=docker-pivpn -d -p 522:22 -p 1194:1194 innovativeinventor/docker-pivpn`
+ Follow the onscreen prompts to get started
 
-To set up a password, type
-
-`docker exec -it docker-pivpn passwd`
-
-You will be able to ssh into your container on port 522 using the password you just set up. The moment you log in, you will be prompted to setup pivpn.
 
 # Credits
-
 Visit PiVPN's GitHub at https://github.com/pivpn/pivpn
