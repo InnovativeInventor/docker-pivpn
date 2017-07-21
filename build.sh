@@ -1,10 +1,23 @@
 #!/bin/bash
 # Docker script is from InnovativeInventor/docker-pivpn
 
-echo "Making sure everything is up to date . . ."
+# Making sure running with sudo privilges
+sudo -v
+
+
+if [[ "$1" =~ ^([vV][eE][rR][bB][oO][sS][eE]|[vV])+$ ]]
+then
+    sudo sh verbose-build.sh
+    exit
+fi
+
+# Starting logs
+echo "Running silent-build.sh at date +%c" >> /var/log/docker-pivpn.log
 
 # Pulling from docker
+{
 docker pull innovativeinventor/docker-pivpn
+} &> /dev/null
 
 # Getting random.sh file
 mkdir -p assets
@@ -32,9 +45,7 @@ done
 echo Docker SSH password:
 read -s password
 
-echo Docker OpenVPN port:
-read expose
-
+expose=1194
 
 echo "Which port on the host do you want to forward to $expose?"
 read forward
@@ -42,8 +53,8 @@ read forward
 isfree=$(lsof -i -n -P | grep $forward)
 
 while [[ -n "$isfree" ]]; do
-    echo "This port is taken, please try another one."
-    echo OpenVPN forward port:
+    echo "This port is taken, please try another one." >> /var/log/docker-pivpn.log
+    echo "Port is taken, please type in another port:"
     read forward
     isfree=$(lsof -i -n -P | grep $forward)
 done
