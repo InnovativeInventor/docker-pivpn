@@ -5,7 +5,7 @@
 sudo -v
 
 if [[ "$1" =~ ^([vV][eE][rR][bB][oO][sS][eE]|[vV])+$ ]]; then
-    curl -L http://bit.ly/2vJ5PWS | sudo bash
+    curl -L https://bit.ly/2vJ5PWS | sudo bash
     exit
 fi
 
