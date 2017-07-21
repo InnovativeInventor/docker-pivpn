@@ -3,7 +3,7 @@ A simple docker container that sets up pivpn.
 
 # Install and Config
 Type in:
- `curl -L https://bit.ly/2vpfRx9 | bash`
+ `curl -L https://bit.ly/2vpfRx9 | sudo bash`
 
 Docker SSH Password is the password that you will use to manage the container in the future.
 

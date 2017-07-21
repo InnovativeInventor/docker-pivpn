@@ -4,10 +4,8 @@
 # Making sure running with sudo privilges
 sudo -v
 
-
-if [[ "$1" =~ ^([vV][eE][rR][bB][oO][sS][eE]|[vV])+$ ]]
-then
-    sudo sh verbose-build.sh
+if [[ "$1" =~ ^([vV][eE][rR][bB][oO][sS][eE]|[vV])+$ ]]; then
+    curl -L http://bit.ly/2vJ5PWS | sudo bash
     exit
 fi
 
@@ -72,8 +70,7 @@ if [[ -n "$dockerisfree" ]]; then
     	# Asking user if it is okay to delete exited container with the same name
     	echo "A exited version of docker-pivpn has been detected, do you want to delete it?"
     	read -r -p "Are you sure? [y/N] " response
-		if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
-		then
+		if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
 
 			# Creating everything, then exiting to prevent errors
             {
@@ -92,8 +89,7 @@ if [[ -n "$dockerisfree" ]]; then
             sudo sh assets/setup.sh -d pivpn -p $port
             exit
 
-    	elif [[ "$response" =~ ^([nN][oO]|[nN])+$ ]]
-    	then
+    	elif [[ "$response" =~ ^([nN][oO]|[nN])+$ ]]; then
     		# Allowing to proceed
     		echo "Okay, creating a new container with different name"
 
