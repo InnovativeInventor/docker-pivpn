@@ -11,7 +11,7 @@ do
 done
 
 # Getting latest copy of PiVPN script
-docker exec $DOCKER curl -L https://install.pivpn.io -o /usr/bin/pivpn
+docker exec $DOCKER curl -s -L https://install.pivpn.io -o /usr/bin/pivpn
 docker exec $DOCKER echo "rm /usr/bin/pivpn" >> /usr/bin/pivpn
 docker exec $DOCKER chmod +x /usr/bin/pivpn
 
