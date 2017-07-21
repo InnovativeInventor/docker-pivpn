@@ -22,5 +22,7 @@ docker cp assets/motd $DOCKER:/etc/motd
 # SSHing into docker container
 ssh-keygen -R [127.0.0.1]:$PORT
 echo "Logging into $DOCKER, type in your $DOCKER password"
-ssh root@127.0.0.1 -p $PORT
+
+# Adding to known_hosts file automatically since a MiTM attack is only possible if an attacker already has access to the machine
+ssh root@127.0.0.1 -o StrictHostKeyChecking=no -p $PORT
 echo "Done! Access your secure container by typing in: ssh root@127.0.0.1 -p $PORT"
