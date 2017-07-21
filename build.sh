@@ -9,6 +9,28 @@ if [[ "$1" =~ ^([vV][eE][rR][bB][oO][sS][eE]|[vV])+$ ]]; then
     exit
 fi
 
+docker=$(docker -v)
+if [[ -n "$docker" ]]; then
+    if [[ "$OSTYPE" == "linux-gnu" ]]; then
+        sudo apt-get update
+        sudo apt-get install -y apt-transport-https
+        sudo apt-get install ca-certificates
+        sudo apt-get install curl
+        sudo apt-get install -y software-properties-common
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        sudo add-apt-repository \
+        "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+        $(lsb_release -cs) \
+        stable"
+        sudo apt-get update
+        sudo apt-get install -y docker-ce
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        echo "Please install docker at https://download.docker.com/mac/stable/Docker.dmg"
+    else
+        echo "Invalid operating system, docker isn't installed"
+    fi
+fi
+
 # Starting logs
 echo "Running silent-build.sh at date +%c" >> /var/log/docker-pivpn.log
 
