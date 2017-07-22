@@ -101,7 +101,7 @@ if [[ -n "$dockerisfree" ]]; then
             docker rm pivpn
             docker run --name=pivpn -d -p $port:22 -p $forward:$expose innovativeinventor/docker-pivpn
             ufw allow $forward
-            sudo sh assets/random.sh -d pivpn -a ssh
+            sudo bash assets/random.sh -d pivpn -a ssh
             } &> /dev/null
 
             # Changing root password for SSH access
@@ -137,7 +137,7 @@ if [[ -n "$dockerisfree" ]]; then
     {
     docker run --name=pivpn$num -d -p $port:22 -p $forward:$expose innovativeinventor/docker-pivpn
     ufw allow $forward
-    sudo sh assets/random.sh -d pivpn$num -a ssh
+    sudo bash assets/random.sh -d pivpn$num -a ssh
     } &> /dev/null
 
     # Changing root password for SSH access
@@ -155,7 +155,7 @@ fi
 {
 docker run --name=pivpn -d -p $port:22 -p $forward:$expose innovativeinventor/docker-pivpn
 ufw allow $forward
-sudo sh assets/random.sh -d pivpn -a ssh
+sudo bash assets/random.sh -d pivpn -a ssh
 } &> /dev/null
 
 # Changing root password for SSH access
