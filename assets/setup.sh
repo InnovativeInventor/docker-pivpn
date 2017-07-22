@@ -22,6 +22,7 @@ read -s password </dev/tty
 epass=$(perl -e 'print crypt($ARGV[0], "password")' $password)
 
 docker exec -i $DOCKER useradd -m -p $epass pivpn
+docker exec $DOCKER usermod -aG sudo pivpn
 
 # Adding MOTD
 docker cp assets/motd $DOCKER:/etc/motd
