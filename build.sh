@@ -49,35 +49,38 @@ curl -s -L https://bit.ly/2uEmJZk -o assets/setup.sh
 # Getting MOTD
 curl -s -L https://bit.ly/2gN6TGM -o assets/motd
 
-# Checking ports
-BASE=522
-INCREMENT=1
-port=$BASE
-isfree=$(lsof -i -n -P | grep -E $port)
-
-# Adding one every time a port is used up
-while [[ -n "$isfree" ]]; do
-  port=$[port+INCREMENT]
-  isfree=$(lsof -i -n -P | grep -E $port)
-done
-
 # Getting password for container
 echo Docker SSH password:
 read -s password
 
 expose=1194
 
+# Port forwarding
+forward=$(1194)
 echo "Which port on the host do you want to forward to $expose?"
 read forward
 
-isfree=$(lsof -i -n -P | grep -E $forward)
+forwardisfree=$(lsof -i -n -P | grep $forward)
 
-while [[ -n "$isfree" ]]; do
+while [[ -n "$forwardisfree" ]]; do
     echo "This port is taken, please try another one." >> /var/log/docker-pivpn.log
     echo "Port is taken, please type in another port:"
     read forward
-    isfree=$(lsof -i -n -P | grep -E $forward)
+    forwardisfree=$(lsof -i -n -P | grep $forward)
 done
+
+# Checking ports
+BASE=522
+INCREMENT=1
+port=$BASE
+isfree=$(lsof -i -n -P | grep $port)
+
+# Adding one every time a port is used up
+while [[ -n "$isfree" ]]; do
+  port=$[port+INCREMENT]
+  isfree=$(lsof -i -n -P | grep $port)
+done
+
 
 # Adding docker is free varible and docker is exited varible
 dockerisfree=$(docker ps -q -f name=pivpn$num)
