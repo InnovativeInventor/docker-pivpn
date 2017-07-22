@@ -8,7 +8,8 @@ RUN apt-get install -y curl
 RUN apt-get install -y whiptail
 RUN apt-get install -y net-tools
 RUN apt-get install -y iptables-persistent
-RUN apt-get install sudo
+RUN apt-get install
+RUN apt-get install locales
 RUN mkdir /var/run/sshd
 RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
