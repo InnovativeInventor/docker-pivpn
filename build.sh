@@ -96,10 +96,10 @@ if [[ -n "$dockerisfree" ]]; then
     	read -r -p "Are you sure? [y/N] " response </dev/tty
 		if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
 
-			# Creating everything, then exiting to prevent errors
+            # Installing
             {
-    		docker rm pivpn
-    		docker run --name=pivpn -d -p $port:22 -p $forward:$expose innovativeinventor/docker-pivpn
+            docker rm pivpn
+            docker run --name=pivpn -d -p $port:22 -p $forward:$expose innovativeinventor/docker-pivpn
             ufw allow $forward
             sudo sh assets/random.sh -d pivpn -a ssh
             } &> /dev/null
