@@ -33,6 +33,5 @@ echo "Logging into $DOCKER, type in your $DOCKER password"
 
 # Adding to known_hosts file automatically since a MiTM attack is only possible if an attacker already has access to the machine
 ssh-keygen -R [127.0.0.1]:$PORT
-echo "Done! Access your secure container by typing in: ssh root@127.0.0.1 -p $PORT"
-sleep 3
 ssh root@127.0.0.1 -q -o StrictHostKeyChecking=no -p $PORT </dev/tty
+echo "Done! Access your secure container by typing in: ssh root@127.0.0.1 -p $PORT"
