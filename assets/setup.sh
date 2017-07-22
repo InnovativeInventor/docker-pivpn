@@ -14,6 +14,7 @@ done
 docker exec $DOCKER curl -s -L https://install.pivpn.io -o /usr/bin/pivpn
 docker exec $DOCKER "echo su pivpn >> /usr/bin/pivpn"
 docker exec $DOCKER chmod +x /usr/bin/pivpn
+docker exec $DOCKER apt-get install sudo
 docker exec $DOCKER usermod -aG sudo root
 
 # Getting password for PiVPN user

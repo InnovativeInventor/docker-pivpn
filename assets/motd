@@ -4,7 +4,8 @@
 ##  Type pivpn to configure this docker container.          ##
 ##  Don't forget to use the correct port for pivpn.         ##
 ##                                                          ##
-##  A non-root account named pivpn has been set up for you  ##
+##  A non-root account named pivpn has been set up for you, ##
+##  Enter pivpn's management by typing su pivpn             ##
 ##                                                          ##
 ##  Setup public-key auth for SSH to increase security!     ##
 ##                                                          ##
