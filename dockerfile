@@ -10,7 +10,7 @@ RUN apt-get install -y net-tools
 RUN apt-get install -y iptables-persistent
 RUN apt-get install
 RUN apt-get install locales
-RUN apt install language-pack-en
+RUN apt-get install -y language-pack-en
 RUN mkdir /var/run/sshd
 RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
