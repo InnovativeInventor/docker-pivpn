@@ -5,7 +5,7 @@
 ##  Don't forget to use the correct port for pivpn.         ##
 ##                                                          ##
 ##  A non-root account named pivpn has been set up for you, ##
-##  Enter pivpn's management by typing su pivpn             ##
+##  Add a pivpn client config by typing sudo pivpn -a       ##
 ##                                                          ##
 ##  Setup public-key auth for SSH to increase security!     ##
 ##                                                          ##
