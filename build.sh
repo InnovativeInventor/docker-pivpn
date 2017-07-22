@@ -56,8 +56,7 @@ read -s password
 expose=1194
 
 # Port forwarding
-forward=1194
-echo "Which port on the host do you want to forward to $expose?"
+echo "Which port on the host do you want to forward to $expose (usually 1194)?"
 read forward
 
 forwardisfree=$(lsof -i -n -P | grep $forward)
