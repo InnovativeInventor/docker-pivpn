@@ -56,7 +56,7 @@ read -s password
 expose=1194
 
 # Port forwarding
-forward=$(1194)
+forward=1194
 echo "Which port on the host do you want to forward to $expose?"
 read forward
 
