@@ -110,7 +110,7 @@ if [[ -n "$dockerisfree" ]]; then
             } &> /dev/null
 
             # Setup PiVPN prompt
-            sudo sh assets/setup.sh -d pivpn -p $port
+            sudo bash assets/setup.sh -d pivpn -p $port
             exit
 
     	elif [[ "$response" =~ ^([nN][oO]|[nN])+$ ]]; then
@@ -146,7 +146,7 @@ if [[ -n "$dockerisfree" ]]; then
     } &> /dev/null
 
     # Setup PiVPN prompt
-    sudo sh assets/setup.sh -d pivpn$num -p $port
+    sudo bash assets/setup.sh -d pivpn$num -p $port
     exit
 
 fi
@@ -164,5 +164,5 @@ sudo sh assets/random.sh -d pivpn -a ssh
 } &> /dev/null
 
 # Setup PiVPN prompt
-sudo sh assets/setup.sh -d pivpn -p $port
+sudo bash assets/setup.sh -d pivpn -p $port
 exit
