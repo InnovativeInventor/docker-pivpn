@@ -1,12 +1,14 @@
 
-##########################################################
-##                                                      ##
-##  Type pivpn to configure this docker container.      ##
-##  Don't forget to use the correct port for pivpn.     ##
-##                                                      ##
-##  Setup public-key auth for SSH to increase security! ##
-##                                                      ##
-##  Docker-PiVPN Made by InnovativeInventor             ##
-##  https://github.com/InnovativeInventor               ##
-##                                                      ##
-##########################################################
+##############################################################
+##                                                          ##
+##  Type pivpn to configure this docker container.          ##
+##  Don't forget to use the correct port for pivpn.         ##
+##                                                          ##
+##  A non-root account named pivpn has been set up for you  ##
+##                                                          ##
+##  Setup public-key auth for SSH to increase security!     ##
+##                                                          ##
+##  Docker-PiVPN Made by InnovativeInventor                 ##
+##  https://github.com/InnovativeInventor                   ##
+##                                                          ##
+##############################################################
