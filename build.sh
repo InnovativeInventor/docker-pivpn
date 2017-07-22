@@ -51,20 +51,20 @@ curl -s -L https://bit.ly/2gN6TGM -o assets/motd
 
 # Getting password for container
 echo Docker SSH password:
-read -s password
+read -s password </dev/tty
 
 expose=1194
 
 # Port forwarding
 echo "Which port on the host do you want to forward to $expose (usually 1194)?"
-read forward
+read forward </dev/tty
 
 forwardisfree=$("lsof -i :$forward")
 
 while [[ -n "$forwardisfree" ]]; do
     echo "This port is taken, please try another one." >> /var/log/docker-pivpn.log
     echo "Port is taken, please type in another port:"
-    read forward
+    read forward </dev/tty
     forwardisfree=$("lsof -i :$forward")
 done
 
@@ -93,7 +93,7 @@ if [[ -n "$dockerisfree" ]]; then
 
     	# Asking user if it is okay to delete exited container with the same name
     	echo "A exited version of docker-pivpn has been detected, do you want to delete it?"
-    	read -r -p "Are you sure? [y/N] " response
+    	read -r -p "Are you sure? [y/N] " response </dev/tty
 		if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
 
 			# Creating everything, then exiting to prevent errors
