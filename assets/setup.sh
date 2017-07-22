@@ -19,9 +19,9 @@ docker exec $DOCKER usermod -aG sudo root
 # Getting password for PiVPN user
 echo PiVPN user password:
 read -s password </dev/tty
+epass=$(perl -e 'print crypt($ARGV[0], "password")' $password)
 
-printf "$password\n$password\n"  | docker exec -i $DOCKER adduser pivpn
-
+docker exec -i $DOCKER useradd -m -p $epass pivpn
 
 # Adding MOTD
 docker cp assets/motd $DOCKER:/etc/motd
