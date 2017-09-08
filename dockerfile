@@ -8,7 +8,7 @@ RUN apt-get install -y curl
 RUN apt-get install -y whiptail
 RUN apt-get install -y net-tools
 RUN apt-get install -y iptables-persistent
-RUN apt-get install
+RUN apt-get install iproute2
 RUN apt-get install locales
 RUN apt-get install -y language-pack-en
 RUN mkdir /var/run/sshd
