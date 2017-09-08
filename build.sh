@@ -10,11 +10,19 @@ if [[ "$1" =~ ^([vV][eE][rR][bB][oO][sS][eE]|[vV])+$ ]]; then
     exit
 fi
 
+lsof=$(lsof -v)
+if [[ ! "$lsof" ]]; then
+    if [[ "$OSTYPE" == "linux-gnu" ]]; then
+        sudo apt-get install lsof
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        echo "For some reason, lsof isn't installed on this system"
+    fi
+fi
+
 docker=$(docker -v)
 if [[ ! "$docker" ]]; then
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
         sudo apt-get update
-        suod apt-get install lsof
         sudo apt-get install -y apt-transport-https
         sudo apt-get install ca-certificates
         sudo apt-get install curl
