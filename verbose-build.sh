@@ -20,12 +20,12 @@ curl -s -L https://bit.ly/2gN6TGM -o assets/motd
 BASE=522
 INCREMENT=1
 port=$BASE
-isfree=$(lsof -i -n -P | grep $port)
+isfree=$(sudo lsof -i -n -P | grep $port)
 
 # Adding one every time a port is used up
 while [[ -n "$isfree" ]]; do
   port=$[port+INCREMENT]
-  isfree=$(lsof -i -n -P | grep $port)
+  isfree=$(sudo lsof -i -n -P | grep $port)
 done
 
 # Getting password for container
@@ -39,13 +39,13 @@ read expose
 echo "Which port on the host do you want to forward to $expose?"
 read forward
 
-isfree=$(lsof -i -n -P | grep $forward)
+isfree=$(sudo lsof -i -n -P | grep $forward)
 
 while [[ -n "$isfree" ]]; do
     echo "This port is taken, please try another one."
     echo OpenVPN forward port:
     read forward
-    isfree=$(lsof -i -n -P | grep $forward)
+    isfree=$(sudo lsof -i -n -P | grep $forward)
 done
 
 # Adding docker is free varible and docker is exited varible

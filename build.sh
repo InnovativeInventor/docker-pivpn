@@ -61,25 +61,25 @@ expose=1194
 echo "Which port on the host do you want to forward to $expose (usually 1194)?"
 read forward </dev/tty
 
-forwardisfree=$(lsof -i :$forward)
+forwardisfree=$(sudo lsof -i :$forward)
 
 while [[ -n "$forwardisfree" ]]; do
     echo "This port is taken, please try another one." >> /var/log/docker-pivpn.log
     echo "Port is taken, please type in another port:"
     read forward </dev/tty
-    forwardisfree=$(lsof -i :$forward)
+    forwardisfree=$(sudo lsof -i :$forward)
 done
 
 # Checking ports
 BASE=522
 INCREMENT=1
 port=$BASE
-isfree=$(lsof -i :$port)
+isfree=$(sudo lsof -i :$port)
 
 # Adding one every time a port is used up
 while [[ -n "$isfree" ]]; do
   port=$[port+INCREMENT]
-  isfree=$(lsof -i :$port)
+  isfree=$(sudo lsof -i :$port)
 done
 
 
