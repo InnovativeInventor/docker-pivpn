@@ -5,7 +5,8 @@
 sudo -v
 
 if [[ "$1" =~ ^([vV][eE][rR][bB][oO][sS][eE]|[vV])+$ ]]; then
-    curl -L https://bit.ly/2vJ5PWS | sudo bash
+    sudo apt-get install curl
+    curl -L https://bit.ly/2vJ5PWS | sudo bash #If verbose build
     exit
 fi
 
@@ -13,6 +14,7 @@ docker=$(docker -v)
 if [[ ! "$docker" ]]; then
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
         sudo apt-get update
+        suod apt-get install lsof
         sudo apt-get install -y apt-transport-https
         sudo apt-get install ca-certificates
         sudo apt-get install curl
@@ -27,7 +29,7 @@ if [[ ! "$docker" ]]; then
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         echo "Please install docker at https://download.docker.com/mac/stable/Docker.dmg"
     else
-        echo "Invalid operating system, docker isn't installed"
+        echo "Not supported operating system, docker isn't installed"
     fi
 fi
 
