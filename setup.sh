@@ -62,8 +62,14 @@ display_help() {
     exit 1
 }
 
-setup() {
-    git clone https://github.com/InnovativeInventor/docker-pivpn --depth 1
+setup_repo() {
+    if [ -e docker-pivpn ]; then # check if -e will return if directory is detected
+        cd docker-pivpn
+        git pull
+        cd ..
+    else
+        git clone https://github.com/InnovativeInventor/docker-pivpn --depth 1
+    fi
 }
 
 install_docker_mac() {
@@ -144,7 +150,15 @@ gen_config() {
 
 seed_random() {
     rand="$(openssl rand -base64 100000)"
-    docker exec -it $container sudo bash -c "echo $rand >> /dev/random"
+
+    if [ -e randwrite.sh ]; then
+        docker cp randwrite.sh $container:/randwrite.sh
+    else
+        setup_repo
+        docker cp docker-pivpn/randwrite.sh $container:/randwrite.sh
+    fi
+    
+    docker exec -it $container bash randwrite.sh "$rand"
 }
 
 # Help option
