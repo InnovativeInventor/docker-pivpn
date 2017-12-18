@@ -95,7 +95,7 @@ build_and_setup() {
 
 build() {
     if [ -e Dockerfile ]; then
-        docker build -t InnovativeInventor/pivpn .
+        docker build -t innovativeinventor/pivpn .
     else
         echo "Dockerfile does not exist, will not build. Defaulting to pull"
         pull
@@ -103,11 +103,11 @@ build() {
 }
 
 pull() {
-    docker pull InnovativeInventor/docker-pivpn
+    docker pull innovativeinventor/docker-pivpn
 }
 
 docker_run_build () {
-    container="$(docker run -i -d -P --cap-add=NET_ADMIN InnovativeInventor/pivpn)"
+    container="$(docker run -i -d -P --cap-add=NET_ADMIN innovativeinventor/pivpn)"
     output=$(docker port "$container" 1194)
     port=${output#0.0.0.0:}
     echo Your port is $port
