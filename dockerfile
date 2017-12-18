@@ -14,6 +14,7 @@ RUN apt-get install dhcpcd5 -y
 RUN apt-get install dnsutils -y
 RUN apt-get install expect -y
 RUN apt-get install whiptail
+RUN mkdir /home/pivpn
 RUN curl -L https://install.pivpn.io -o install.sh
 RUN useradd pivpn
 EXPOSE 1194

@@ -52,13 +52,12 @@ display_help() {
     echo 'Options:'
     echo '   -h --help                   Show help'
     echo '   -b --build                  Builds dockerfile'
+    echo '   -c --config <amount>        Specify the amount of client configs you want'
     exit 1
 }
 
 setup() {
     git clone https://github.com/InnovativeInventor/docker-pivpn --depth 1
-
-
 }
 
 install_docker_mac() {
@@ -120,10 +119,16 @@ pivpn_setup() {
     docker exec -it $container bash install.sh
     docker exec -it $container dpkg --configure -a
     docker exec -it $container bash install.sh
+    gen_config
     echo "Done! To execute commands, type docker exec -it $container /bin/bash"
+    echo "To generate configs, just type docker exec -it $container pivpn -a"
     echo "Your openvpn port should be $port"
 }
 
+gen_config() {
+    docker exec -it $container pivpn -a
+    docker cp $container:/home/pivpn/ovpns/* ..
+}
 seed_random() {
     rand="$(openssl rand -base64 100000)"
     docker exec -it $container echo "$rand" >> /dev/random
