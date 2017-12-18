@@ -27,12 +27,18 @@
 
 # Options
 VERSION="1.0"
+config="1"
 
 while [[ $# -gt 0 ]]
 do
 key="$1"
 
 case $key in
+    -c|--config)
+    config="$2"
+    shift # past argument
+    shift # past value
+    ;;
     -h|--help)
     help=YES
     shift # past argument
@@ -122,14 +128,20 @@ pivpn_setup() {
     docker exec -it $container sed -i "s/1194/$port/g" /etc/openvpn/easy-rsa/pki/Default.txt
     gen_config
     echo "Done! To execute commands, type docker exec -it $container /bin/bash"
-    echo "To generate configs, just type docker exec -it $container pivpn -a"
+    echo "All currently generated configs are in the ovpns directory"
+    echo "To generate more configs, just type docker exec -it $container pivpn -a"
     echo "Your openvpn port should be $port, open it up if you are using a firewall"
 }
 
 gen_config() {
-    docker exec -it $container pivpn -a
-    docker cp $container:/home/pivpn/ovpns/* ..
+    while [ $i -lt $config ]; do
+        docker exec -it $container pivpn -a
+        i=$[$i+1]
+    done
+    
+    docker cp $container:/home/pivpn/ovpns ovpns
 }
+
 seed_random() {
     rand="$(openssl rand -base64 100000)"
     docker exec -it $container sudo bash -c "echo $rand >> /dev/random"
