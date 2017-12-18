@@ -157,8 +157,8 @@ seed_random() {
         setup_repo
         docker cp docker-pivpn/randwrite.sh $container:/randwrite.sh
     fi
-    
-    docker exec -it $container bash randwrite.sh "$rand"
+
+    docker exec $container bash randwrite.sh "$rand"
 }
 
 # Help option

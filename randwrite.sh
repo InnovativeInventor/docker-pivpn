@@ -26,5 +26,4 @@
 # SOFTWARE.
 
 rand=$1
-echo "$rand"
 echo "$rand" > /dev/random
