@@ -37,6 +37,10 @@ case $key in
     help=YES
     shift # past argument
     ;;
+    -b|--build)
+    help=YES
+    shift # past argument
+    ;;
 esac
 done
 
@@ -80,17 +84,30 @@ install_docker_linux() {
 }
 
 build_and_setup() {
-    build
+    if [ "$build" == YES ]; then
+        build
+    else
+        pull
+    fi
     docker_run_build
     pivpn_setup
 }
 
 build() {
-    docker build -t pivpn .
+    if [ -e Dockerfile ]; then
+        docker build -t InnovativeInventor/pivpn .
+    else
+        echo "Dockerfile does not exist, will not build. Defaulting to pull"
+        pull
+    fi
+}
+
+pull() {
+    docker pull InnovativeInventor/docker-pivpn
 }
 
 docker_run_build () {
-    container="$(docker run -i -d -P --cap-add=NET_ADMIN pivpn)"
+    container="$(docker run -i -d -P --cap-add=NET_ADMIN InnovativeInventor/pivpn)"
     output=$(docker port "$container" 1194)
     port=${output#0.0.0.0:}
     echo Your port is $port
@@ -100,7 +117,6 @@ pivpn_setup() {
     # ssh root@127.0.0.1 -i "$HOME/.ssh/id_rsa" -p $port
     echo "$container"
     seed_random
-
     docker exec -it $container bash install.sh
     docker exec -it $container dpkg --configure -a
     docker exec -it $container bash install.sh
