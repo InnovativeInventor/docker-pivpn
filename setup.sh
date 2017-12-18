@@ -134,11 +134,11 @@ pivpn_setup() {
 }
 
 gen_config() {
-    while [ $i -lt $config ]; do
+    while [[ $i -lt $config ]]; do
         docker exec -it $container pivpn -a
         i=$[$i+1]
     done
-    
+
     docker cp $container:/home/pivpn/ovpns ovpns
 }
 
