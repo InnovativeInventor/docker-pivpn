@@ -7,8 +7,6 @@ Type in:
 curl -s -L https://bit.ly/2CzLV3T  -o install.sh
 sudo bash
 ```
-When the script prompts for your password, it requires your host root password.
-
 For most use cases, you just need to press enter all the way through your prompts.
 
 # Credits
