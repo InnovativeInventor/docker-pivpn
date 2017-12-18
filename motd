@@ -1,13 +1,12 @@
 
 ##############################################################
 ##                                                          ##
-##  Type pivpn to configure this docker container.          ##
-##  Don't forget to use the correct port for pivpn.         ##
+##  Welcome to docker-PiVPN                                 ##
+##  Don't forget to use the port 1194 for pivpn.            ##
 ##                                                          ##
 ##  A non-root account named pivpn has been set up for you, ##
 ##  Add a pivpn client config by typing sudo pivpn -a       ##
 ##                                                          ##
-##  Setup public-key auth for SSH to increase security!     ##
 ##                                                          ##
 ##  Docker-PiVPN Made by InnovativeInventor                 ##
 ##  https://github.com/InnovativeInventor                   ##
