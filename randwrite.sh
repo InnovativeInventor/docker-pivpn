@@ -25,5 +25,5 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-rand=$1
-echo "$rand" > /dev/random
+r=$1
+echo "$r" > /dev/random

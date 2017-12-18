@@ -28,6 +28,7 @@
 # Options
 VERSION="1.0"
 config="1"
+seed="1"
 
 while [[ $# -gt 0 ]]
 do
@@ -36,6 +37,11 @@ key="$1"
 case $key in
     -c|--config)
     config="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    -r|--rand)
+    seed="$2"
     shift # past argument
     shift # past value
     ;;
@@ -59,6 +65,7 @@ display_help() {
     echo '   -h --help                   Show help'
     echo '   -b --build                  Builds dockerfile'
     echo '   -c --config <amount>        Specify the amount of client configs you want'
+    echo '   -r --rand <amount>          Specify the amount of random data (in kilobytes) that you want your Docker container to be seeded with'
     exit 1
 }
 
@@ -141,6 +148,7 @@ pivpn_setup() {
 
 gen_config() {
     while [[ $i -lt $config ]]; do
+        echo "Generating configs . . . Please answer the prompts"
         docker exec -it $container pivpn -a
         i=$[$i+1]
     done
@@ -149,13 +157,17 @@ gen_config() {
 }
 
 seed_random() {
-    rand="$(openssl rand -base64 100000)"
+    rand="$(head -1000 /dev/urandom)"
 
     if [ -e randwrite.sh ]; then
         docker cp randwrite.sh $container:/randwrite.sh
     else
         setup_repo
-        docker cp docker-pivpn/randwrite.sh $container:/randwrite.sh
+        while [[ $i -lt $seed ]]; do
+            rand="$(head -1000 /dev/urandom)"
+            docker cp docker-pivpn/randwrite.sh $container:/randwrite.sh
+            i=$[$i+1]
+        done
     fi
 
     docker exec $container bash randwrite.sh "$rand"
