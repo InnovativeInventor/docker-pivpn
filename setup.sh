@@ -38,7 +38,7 @@ case $key in
     shift # past argument
     ;;
     -b|--build)
-    help=YES
+    build=YES
     shift # past argument
     ;;
 esac
