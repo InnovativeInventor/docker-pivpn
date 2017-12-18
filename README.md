@@ -3,7 +3,7 @@ A simple docker container that sets up pivpn.
 
 # Install and Config
 Type in:
- `curl -s -L https://bit.ly/2vpfRx9 | sudo bash`
+ `curl -s -L https://bit.ly/2CzLV3T | sudo bash`
 
 When the script prompts for your password, it requires your host root password.
 
