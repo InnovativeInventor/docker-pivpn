@@ -140,6 +140,7 @@ pivpn_setup() {
     docker exec -it $container bash install.sh
     docker exec -it $container sed -i "s/1194/$port/g" /etc/openvpn/easy-rsa/pki/Default.txt
     gen_config
+    docker restart $container
     echo "Done! To execute commands, type docker exec -it $container /bin/bash"
     echo "All currently generated configs are in the ovpns directory"
     echo "To generate more configs, just type docker exec -it $container pivpn -a"
@@ -153,7 +154,7 @@ gen_config() {
         i=$[$i+1]
     done
 
-    docker cp $container:/home/pivpn/ovpns ovpns
+    docker cp $container:/home/pivpn/ovpns ..
 }
 
 seed_random() {
