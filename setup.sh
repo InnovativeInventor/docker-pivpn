@@ -134,12 +134,13 @@ docker_run_build () {
 pivpn_setup() {
     # ssh root@127.0.0.1 -i "$HOME/.ssh/id_rsa" -p $port
     echo "$container"
-    # seed_random
+    seed_random
     docker exec -it $container bash install.sh
     docker exec -it $container dpkg --configure -a
     docker exec -it $container bash install.sh
     docker exec -it $container sed -i "s/1194/$port/g" /etc/openvpn/easy-rsa/pki/Default.txt
     gen_config
+    echo "Restarting container . . ."
     docker restart $container
     echo "Done! To execute commands, type docker exec -it $container /bin/bash"
     echo "All currently generated configs are in the ovpns directory"
