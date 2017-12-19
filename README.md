@@ -5,7 +5,7 @@ A simple docker container that sets up pivpn.
 Type in:
 ```
 curl -s -L https://bit.ly/2CzLV3T -o setup.sh
-sudo bash
+sudo bash setup.sh
 ```
 For most use cases, you just need to press enter all the way through your prompts.
 
