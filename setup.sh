@@ -154,7 +154,7 @@ gen_config() {
         i=$[$i+1]
     done
 
-    docker cp $container:/home/pivpn/ovpns ovpns
+    docker cp $container:/home/pivpn/ovpns ..
 }
 
 seed_random() {
