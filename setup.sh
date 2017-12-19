@@ -125,7 +125,10 @@ pull() {
 }
 
 docker_run_build () {
-    container="$(docker run -i -d -P --cap-add=NET_ADMIN innovativeinventor/docker-pivpn)"
+    container="$(docker run -i -d -P --cap-add=NET_ADMIN innovativeinventor/docker-pivpn)" # check if permissons can be lowered
+}
+
+detect_port() {
     output=$(docker port "$container" 1194)
     port=${output#0.0.0.0:}
     echo Your port is $port
@@ -138,10 +141,11 @@ pivpn_setup() {
     docker exec -it $container bash install.sh
     docker exec -it $container dpkg --configure -a
     docker exec -it $container bash install.sh
-    docker exec -it $container sed -i "s/1194/$port/g" /etc/openvpn/easy-rsa/pki/Default.txt
-    gen_config
     echo "Restarting container . . ."
     docker restart $container
+    detect_port
+    docker exec -it $container sed -i 's/1194/'"$port"'/g' /etc/openvpn/easy-rsa/pki/Default.txt
+    gen_config
     echo "Done! To execute commands, type docker exec -it $container /bin/bash"
     echo "All currently generated configs are in the ovpns directory"
     echo "To generate more configs, just type docker exec -it $container pivpn -a"
