@@ -65,7 +65,7 @@ display_help() {
     echo '   -h --help                   Show help'
     echo '   -b --build                  Builds dockerfile'
     echo '   -c --config <amount>        Specify the amount of client configs you want'
-    echo '   -r --rand <amount>          Specify the amount of random data (in kilobytes) that you want your Docker container to be seeded with'
+    echo '   -r --rand <amount>          Specify the amount of random data (in 100s of bytes) that you want your Docker container to be seeded with'
     exit 1
 }
 
@@ -149,30 +149,33 @@ pivpn_setup() {
 }
 
 gen_config() {
-    while [[ $i -lt $config ]]; do
+    count=0
+    while [[ $count -lt $config ]]; do
         echo "Generating configs . . . Please answer the prompts"
         docker exec -it $container pivpn -a
-        i=$[$i+1]
+        count+=1
     done
 
     docker cp $container:/home/pivpn/ovpns ..
 }
 
 seed_random() {
-    rand="$(head -1000 /dev/urandom)"
 
+    # Moving script
     if [ -e randwrite.sh ]; then
         docker cp randwrite.sh $container:/randwrite.sh
     else
         setup_repo
-        while [[ $i -lt $seed ]]; do
-            rand="$(head -1000 /dev/urandom)"
-            docker cp docker-pivpn/randwrite.sh $container:/randwrite.sh
-            i=$[$i+1]
-        done
+        docker cp docker-pivpn/randwrite.sh $container:/randwrite.sh
     fi
 
-    docker exec $container bash randwrite.sh "$rand"
+    # Writing random data
+    count=0
+    while [[ $count -lt $seed ]]; do
+        rand="$(head -100 /dev/urandom)"
+        docker exec $container bash randwrite.sh "$rand"
+        count+=1
+    done
 }
 
 # Help option
