@@ -15,7 +15,7 @@ Options:
    -h --help                Show help
    -b --build               Builds dockerfile
    -c --config <amount>     Specify the amount of client configs you want
-   -r --rand <amount>       Specify the amount of random data (in kilobytes) that you want your Docker container to be seeded with
+   -r --rand <amount>       Specify the amount of random data (100's of bytes) that you want your Docker container to be seeded with
 ```
 
 # Credits
