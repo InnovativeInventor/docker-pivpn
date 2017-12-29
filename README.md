@@ -19,5 +19,6 @@ Options:
 ```
 
 # Credits & Contributions
-Visit PiVPN's GitHub at https://github.com/pivpn/pivpn
+Visit PiVPN's GitHub at https://github.com/pivpn/pivpn.
+
 Contributions are always welcome! Just submit a pull request, and I'll review it.
