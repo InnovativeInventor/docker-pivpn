@@ -18,5 +18,6 @@ Options:
    -r --rand <amount>       Specify the amount of random data (100's of bytes) that you want your Docker container to be seeded with
 ```
 
-# Credits
+# Credits & Contributions
 Visit PiVPN's GitHub at https://github.com/pivpn/pivpn
+Contributions are always welcome! Just submit a pull request, and I'll review it.
