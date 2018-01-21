@@ -1,5 +1,5 @@
 # PiVPN Docker
-A simple docker container that sets up pivpn.
+A simple docker container that sets up PiVPN.
 
 # Install and Config
 Type in:
