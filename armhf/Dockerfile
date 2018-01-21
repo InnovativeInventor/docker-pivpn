@@ -1,4 +1,4 @@
-FROM armv7/armhf-ubuntu:16.04
+FROM resin/rpi-raspbian
 
 MAINTAINER InnovativeInventor
 

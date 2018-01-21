@@ -112,8 +112,19 @@ build_and_setup() {
 }
 
 build() {
+    architecture=$(uname -m)
+    if [[ "$architecture" == "x86_64" ]]; then
+        tag="amd64"
+
+    elif [[ "$architecture" == "arm"* ]]; then
+        tag="armhf"
+
+    else
+        echo "Architecture not supported"
+    fi
+
     if [ -e Dockerfile ]; then
-        docker build -t innovativeinventor/docker-pivpn .
+        docker build -t innovativeinventor/docker-pivpn:$tag $tag/Dockerfile
     else
         echo "Dockerfile does not exist, will not build. Defaulting to pull"
         pull
