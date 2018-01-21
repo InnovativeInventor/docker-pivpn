@@ -122,10 +122,12 @@ build() {
 
 pull() {
     architecture=$(uname -m)
-    if [[ "$architecture" == "x86_64" ]]
+    if [[ "$architecture" == "x86_64" ]]; then
         docker pull innovativeinventor/docker-pivpn:amd64
-    elif [[ "$architecture" == "arm"* ]]
+
+    elif [[ "$architecture" == "arm"* ]]; then
         docker pull innovativeinventor/docker-pivpn:armhf
+        
     else
         echo "Architecture not supported"
     fi
