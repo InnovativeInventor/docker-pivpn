@@ -88,7 +88,7 @@ install_docker_linux() {
         sudo apt-get update
         sudo apt-get install -y apt-transport-https
         sudo apt-get install ca-certificates
-        sudo apt-get install curl
+        sudo apt-get install -y curl
         sudo apt-get install -y software-properties-common
         sudo apt-get install lsof
         curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -123,18 +123,20 @@ build() {
 pull() {
     architecture=$(uname -m)
     if [[ "$architecture" == "x86_64" ]]; then
+        tag="amd64"
         docker pull innovativeinventor/docker-pivpn:amd64
 
     elif [[ "$architecture" == "arm"* ]]; then
+        tag="armhf"
         docker pull innovativeinventor/docker-pivpn:armhf
-        
+
     else
         echo "Architecture not supported"
     fi
 }
 
 docker_run_build () {
-    container="$(docker run -i -d -P --cap-add=NET_ADMIN innovativeinventor/docker-pivpn)" # check if permissons can be lowered
+    container="$(docker run -i -d -P --cap-add=NET_ADMIN innovativeinventor/docker-pivpn:$tag)" # check if permissons can be lowered
 }
 
 detect_port() {
