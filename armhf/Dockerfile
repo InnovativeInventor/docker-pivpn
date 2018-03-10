@@ -1,4 +1,4 @@
-FROM resin/rpi-raspbian
+FROM resin/armv7hf-debian
 
 MAINTAINER InnovativeInventor
 
