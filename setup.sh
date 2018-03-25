@@ -107,7 +107,7 @@ build_and_setup() {
     fi
 
     if ! [ $(which docker) ]; then
-        if [ "$platform" == darwin ]; then
+        if [ "$platform" == debian ]; then
             install_docker_debian
         else
             echo "This OS is not supported"
@@ -222,6 +222,6 @@ if [ "$help" == YES ]; then
     display_help
 fi
 
-platform = "$(python -c "import platform; print(platform.dist()[0])")"
+platform=$(python -c "import platform; print(platform.dist()[0])")
 
 build_and_setup
