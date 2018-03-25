@@ -222,6 +222,6 @@ if [ "$help" == YES ]; then
     display_help
 fi
 
-platform = $(python -c "import platform; print(platform.dist()[0])")
+platform = "$(python -c "import platform; print(platform.dist()[0])")"
 
 build_and_setup
