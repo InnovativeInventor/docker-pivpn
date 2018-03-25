@@ -71,10 +71,31 @@ display_help() {
     echo '   -c --config <amount>        Specify the amount of client configs you want'
     echo '   -r --rand <amount>          Specify the amount of random data (in 100s of bytes) that you want your Docker container to be seeded with'
     echo '   -d --dev                    Runs in developer mode'
+    echo '   -i --install <os type>      Allows you to install docker and detect OS type '
     exit 1
 }
 
-setup_repo() {
+install_docker_mac() {
+    echo "Please install docker at https://download.docker.com/mac/stable/Docker.dmg and restart this script"
+}
+
+install_docker_debian() {
+    sudo apt-get update
+    sudo apt-get install -y apt-transport-https
+    sudo apt-get install ca-certificates
+    sudo apt-get install -y curl
+    sudo apt-get install -y software-properties-common
+    sudo apt-get install lsof
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo add-apt-repository \
+    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+    $(lsb_release -cs) \
+    stable"
+    sudo apt-get update
+    sudo apt-get install -y docker-ce
+}
+
+build_and_setup() {
     if [ "$dev" == YES ]; then
         echo "You are running as a developer, updates will not be fetched and your docker image will be built"
     elif [ -e docker-pivpn ]; then # check if -e will return if directory is detected
@@ -84,31 +105,14 @@ setup_repo() {
     else
         git clone https://github.com/InnovativeInventor/docker-pivpn --depth 1
     fi
-}
 
-install_docker_mac() {
-    echo "Please install docker at https://download.docker.com/mac/stable/Docker.dmg and restart this script"
-}
+    if ! [ $(which docker) ]; then
+        if [ "$platform" == darwin ]; then
+            install_docker_debian
+        else
+            echo "This OS is not supported"
+    fi
 
-install_docker_linux() {
-    raspbian_dependencies () {
-        sudo apt-get update
-        sudo apt-get install -y apt-transport-https
-        sudo apt-get install ca-certificates
-        sudo apt-get install -y curl
-        sudo apt-get install -y software-properties-common
-        sudo apt-get install lsof
-        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-        sudo add-apt-repository \
-        "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-        $(lsb_release -cs) \
-        stable"
-        sudo apt-get update
-        sudo apt-get install -y docker-ce
-    }
-}
-
-build_and_setup() {
     if [ "$dev" == YES ]; then
         build
     elif [ "$build" == YES ]; then
@@ -200,7 +204,6 @@ seed_random() {
     if [ -e randwrite.sh ]; then
         docker cp randwrite.sh $container:/randwrite.sh
     else
-        setup_repo
         docker cp docker-pivpn/randwrite.sh $container:/randwrite.sh
     fi
 
@@ -217,5 +220,7 @@ seed_random() {
 if [ "$help" == YES ]; then
     display_help
 fi
+
+platform = $(python -c "import platform; print(platform.dist()[0])")
 
 build_and_setup
