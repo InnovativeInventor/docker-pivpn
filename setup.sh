@@ -99,17 +99,16 @@ build_and_setup() {
     fi
 
     if [ "$dev" == YES ]; then
-        build
+        build_run
     elif [ "$build" == YES ]; then
-        build
+        build_run
     else
-        pull
+        pull_run
     fi
-    docker_run_build
     pivpn_setup
 }
 
-build() {
+build_run() {
     architecture=$(uname -m)
     if [[ "$architecture" == "x86_64" ]]; then
         tag="amd64"
@@ -127,9 +126,10 @@ build() {
         echo "Dockerfile does not exist, will not build. Defaulting to pull"
         pull
     fi
+    container="$(docker run -i -d -P --cap-add=NET_ADMIN docker-pivpn:$tag)" # check if permissons can be lowered
 }
 
-pull() {
+pull_run() {
     architecture=$(uname -m)
     if [[ "$architecture" == "x86_64" ]]; then
         tag="amd64"
@@ -142,9 +142,6 @@ pull() {
     else
         echo "Architecture not supported"
     fi
-}
-
-docker_run_build () {
     container="$(docker run -i -d -P --cap-add=NET_ADMIN innovativeinventor/docker-pivpn:$tag)" # check if permissons can be lowered
 }
 
