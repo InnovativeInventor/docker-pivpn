@@ -29,6 +29,7 @@
 VERSION="1.0"
 config="1"
 seed="1"
+extra=""
 
 while [[ $# -gt 0 ]]
 do
@@ -57,6 +58,10 @@ case $key in
     dev=YES
     shift # past argument
     ;;
+    -n|--nopass)
+    extra="nopass"
+    shift # past argument
+    ;;
 esac
 done
 
@@ -71,7 +76,7 @@ display_help() {
     echo '   -c --config <amount>        Specify the amount of client configs you want'
     echo '   -r --rand <amount>          Specify the amount of random data (in 100s of bytes) that you want your Docker container to be seeded with'
     echo '   -d --dev                    Runs in developer mode'
-    echo '   -i --install <os type>      Allows you to install docker and detect OS type '
+    echo '   -n --nopass                    Creates a .ovpn file with no password'
     exit 1
 }
 
@@ -173,7 +178,7 @@ gen_config() {
     count=0
     while [[ $count -lt $config ]]; do
         echo "Generating configs . . . Please answer the prompts"
-        docker exec -it $container pivpn -a
+        docker exec -it $container pivpn -a $extra
         count+=1
     done
 
