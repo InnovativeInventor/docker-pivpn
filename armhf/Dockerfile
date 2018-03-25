@@ -1,4 +1,4 @@
-FROM arm32v6/alpine
+FROM debian:latest
 
 MAINTAINER InnovativeInventor
 
