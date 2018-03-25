@@ -121,8 +121,8 @@ build() {
         echo "Architecture not supported"
     fi
 
-    if [ -e Dockerfile ]; then
-        docker build -t innovativeinventor/docker-pivpn:$tag $tag/Dockerfile
+    if [ -e $tag/Dockerfile ]; then
+        docker build $tag -t docker-pivpn:$tag
     else
         echo "Dockerfile does not exist, will not build. Defaulting to pull"
         pull
