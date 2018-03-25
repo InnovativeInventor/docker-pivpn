@@ -1,4 +1,4 @@
-FROM resin/armv7hf-debian
+FROM arm32v6/alpine
 
 MAINTAINER InnovativeInventor
 

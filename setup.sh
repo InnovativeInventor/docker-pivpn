@@ -53,6 +53,10 @@ case $key in
     build=YES
     shift # past argument
     ;;
+    -d|--dev)
+    dev=YES
+    shift # past argument
+    ;;
 esac
 done
 
@@ -66,11 +70,14 @@ display_help() {
     echo '   -b --build                  Builds dockerfile'
     echo '   -c --config <amount>        Specify the amount of client configs you want'
     echo '   -r --rand <amount>          Specify the amount of random data (in 100s of bytes) that you want your Docker container to be seeded with'
+    echo '   -d --dev                    Runs in developer mode'
     exit 1
 }
 
 setup_repo() {
-    if [ -e docker-pivpn ]; then # check if -e will return if directory is detected
+    if [ "$dev" == YES ]; then
+        echo "You are running as a developer, updates will not be fetched and your docker image will be built"
+    elif [ -e docker-pivpn ]; then # check if -e will return if directory is detected
         cd docker-pivpn
         git pull
         cd ..
@@ -102,7 +109,9 @@ install_docker_linux() {
 }
 
 build_and_setup() {
-    if [ "$build" == YES ]; then
+    if [ "$dev" == YES ]; then
+        build
+    elif [ "$build" == YES ]; then
         build
     else
         pull
