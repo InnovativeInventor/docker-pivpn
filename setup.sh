@@ -79,25 +79,9 @@ install_docker_mac() {
     echo "Please install docker at https://download.docker.com/mac/stable/Docker.dmg and restart this script"
 }
 
-install_docker_debian() {
-    sudo apt-get update
-    sudo apt-get install -y apt-transport-https
-    sudo apt-get install ca-certificates
-    sudo apt-get install -y curl
-    sudo apt-get install -y software-properties-common
-    sudo apt-get install lsof
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    sudo add-apt-repository \
-    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-    $(lsb_release -cs) \
-    stable"
-    sudo apt-get update
-    sudo apt-get install -y docker-ce
-}
-
 build_and_setup() {
     if [ "$dev" == YES ]; then
-        echo "You are running as a developer, updates will not be fetched and your docker image will be built"
+        echo "You are running as a developer, updates from git will not be fetched and your docker image will be built"
     elif [ -e docker-pivpn ]; then # check if -e will return if directory is detected
         cd docker-pivpn
         git pull
@@ -108,7 +92,7 @@ build_and_setup() {
 
     if ! [ $(which docker) ]; then
         if [ "$platform" == debian ]; then
-            install_docker_debian
+            curl -fsSL get.docker.com | sh
         else
             echo "This OS is not supported"
         fi
