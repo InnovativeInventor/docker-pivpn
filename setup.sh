@@ -111,6 +111,7 @@ build_and_setup() {
             install_docker_debian
         else
             echo "This OS is not supported"
+        fi
     fi
 
     if [ "$dev" == YES ]; then
