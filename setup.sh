@@ -166,7 +166,7 @@ pivpn_setup() {
     echo "Restarting container . . ."
     docker restart $container
     detect_port
-    # docker exec -it $container sed -i 's/1194/'"$port"'/g' /etc/openvpn/easy-rsa/pki/Default.txt
+    docker exec -it $container sed -i 's/1194/'"$port"'/g' /etc/openvpn/easy-rsa/pki/Default.txt
     gen_config
     echo "Done! To execute commands, type docker exec -it $container /bin/bash"
     echo "All currently generated configs are in the ovpns directory"
