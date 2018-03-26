@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM arm32v7/debian:latest
 
 MAINTAINER InnovativeInventor
 
