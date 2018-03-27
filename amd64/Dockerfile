@@ -6,4 +6,5 @@ RUN apt-get update
 RUN apt-get install -y curl software-properties-common debconf-utils git nano whiptail openvpn dhcpcd5 dnsutils expect
 RUN curl -L https://install.pivpn.io -o install.sh
 RUN useradd -m pivpn
-EXPOSE 1194
+EXPOSE 1194/tcp
+EXPOSE 1194/udp
