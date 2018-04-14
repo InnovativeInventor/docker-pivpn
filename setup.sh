@@ -151,7 +151,7 @@ pull_run() {
 }
 
 detect_port() {
-    output=$(docker port "$container" 1194)
+    output=$(docker port "$container" 1194/udp)
     port=${output#0.0.0.0:}
     echo Your port is $port
 }
