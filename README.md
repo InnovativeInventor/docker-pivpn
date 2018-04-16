@@ -23,4 +23,4 @@ Note: Usage on ARM is not fully supported yet, although feel free to help out in
 # Credits & Contributions
 Visit PiVPN's GitHub at https://github.com/pivpn/pivpn.
 
-Contributions are always welcome! Just submit a pull request, and I'll review it.
+Contributions are always welcome! Just submit a pull request, and I'll review it. Please note that newest features are on the devel branch.
