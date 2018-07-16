@@ -29,6 +29,7 @@
 VERSION="1.0"
 config="1"
 seed="1"
+extra=""
 
 while [[ $# -gt 0 ]]
 do
@@ -53,6 +54,14 @@ case $key in
     build=YES
     shift # past argument
     ;;
+    -d|--dev)
+    dev=YES
+    shift # past argument
+    ;;
+    -n|--nopass)
+    extra="nopass"
+    shift # past argument
+    ;;
 esac
 done
 
@@ -66,52 +75,45 @@ display_help() {
     echo '   -b --build                  Builds dockerfile'
     echo '   -c --config <amount>        Specify the amount of client configs you want'
     echo '   -r --rand <amount>          Specify the amount of random data (in 100s of bytes) that you want your Docker container to be seeded with'
+    echo '   -d --dev                    Runs in developer mode'
+    echo '   -n --nopass                    Creates a .ovpn file with no password'
     exit 1
-}
-
-setup_repo() {
-    if [ -e docker-pivpn ]; then # check if -e will return if directory is detected
-        cd docker-pivpn
-        git pull
-        cd ..
-    else
-        git clone https://github.com/InnovativeInventor/docker-pivpn --depth 1
-    fi
 }
 
 install_docker_mac() {
     echo "Please install docker at https://download.docker.com/mac/stable/Docker.dmg and restart this script"
 }
 
-install_docker_linux() {
-    raspbian_dependencies () {
-        sudo apt-get update
-        sudo apt-get install -y apt-transport-https
-        sudo apt-get install ca-certificates
-        sudo apt-get install -y curl
-        sudo apt-get install -y software-properties-common
-        sudo apt-get install lsof
-        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-        sudo add-apt-repository \
-        "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-        $(lsb_release -cs) \
-        stable"
-        sudo apt-get update
-        sudo apt-get install -y docker-ce
-    }
-}
-
 build_and_setup() {
-    if [ "$build" == YES ]; then
-        build
+    if [ "$dev" == YES ]; then
+        echo "You are running as a developer, updates from git will not be fetched and your docker image will be built"
+    elif [ -e docker-pivpn ]; then # check if -e will return if directory is detected
+        cd docker-pivpn
+        git pull
+        cd ..
     else
-        pull
+        git clone https://github.com/InnovativeInventor/docker-pivpn --depth 1
     fi
-    docker_run_build
+
+    if ! [ $(which docker) ]; then
+        if [ "$platform" == debian ]; then
+            curl -fsSL get.docker.com | sh
+        else
+            echo "This OS is not supported"
+        fi
+    fi
+
+    if [ "$dev" == YES ]; then
+        build_run
+    elif [ "$build" == YES ]; then
+        build_run
+    else
+        pull_run
+    fi
     pivpn_setup
 }
 
-build() {
+build_run() {
     architecture=$(uname -m)
     if [[ "$architecture" == "x86_64" ]]; then
         tag="amd64"
@@ -123,15 +125,16 @@ build() {
         echo "Architecture not supported"
     fi
 
-    if [ -e Dockerfile ]; then
-        docker build -t innovativeinventor/docker-pivpn:$tag $tag/Dockerfile
+    if [ -e $tag/Dockerfile ]; then
+        docker build $tag -t docker-pivpn:$tag
     else
         echo "Dockerfile does not exist, will not build. Defaulting to pull"
         pull
     fi
+    container="$(docker run -i -d -P --cap-add=NET_ADMIN docker-pivpn:$tag)" # check if permissons can be lowered
 }
 
-pull() {
+pull_run() {
     architecture=$(uname -m)
     if [[ "$architecture" == "x86_64" ]]; then
         tag="amd64"
@@ -144,14 +147,11 @@ pull() {
     else
         echo "Architecture not supported"
     fi
-}
-
-docker_run_build () {
     container="$(docker run -i -d -P --cap-add=NET_ADMIN innovativeinventor/docker-pivpn:$tag)" # check if permissons can be lowered
 }
 
 detect_port() {
-    output=$(docker port "$container" 1194)
+    output=$(docker port "$container" 1194/udp)
     port=${output#0.0.0.0:}
     echo Your port is $port
 }
@@ -178,11 +178,11 @@ gen_config() {
     count=0
     while [[ $count -lt $config ]]; do
         echo "Generating configs . . . Please answer the prompts"
-        docker exec -it $container pivpn -a
+        docker exec -it $container pivpn -a $extra
         count+=1
     done
 
-    docker cp $container:/home/pivpn/ovpns .
+    docker cp $container:/home/pivpn/ovpns ovpns
 }
 
 seed_random() {
@@ -191,7 +191,6 @@ seed_random() {
     if [ -e randwrite.sh ]; then
         docker cp randwrite.sh $container:/randwrite.sh
     else
-        setup_repo
         docker cp docker-pivpn/randwrite.sh $container:/randwrite.sh
     fi
 
@@ -208,5 +207,7 @@ seed_random() {
 if [ "$help" == YES ]; then
     display_help
 fi
+
+platform=$(python -c "import platform; print(platform.dist()[0])")
 
 build_and_setup

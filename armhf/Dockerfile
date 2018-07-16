@@ -1,20 +1,21 @@
-FROM resin/armv7hf-debian
+FROM arm32v7/debian:stretch
 
 MAINTAINER InnovativeInventor
 
-RUN apt-get update
-RUN apt-get install curl -y
-RUN apt-get install software-properties-common -y
-RUN apt-get install debconf-utils
-RUN apt-get install git -y
-RUN apt-get install nano
-RUN apt-get install whiptail -y
-RUN apt-get install openvpn -y
-RUN apt-get install dhcpcd5 -y
-RUN apt-get install dnsutils -y
-RUN apt-get install expect -y
-RUN apt-get install whiptail
-RUN mkdir /home/pivpn
+RUN apt-get update && apt-get install -y \
+	curl \
+	software-properties-common \
+	debconf-utils \
+	git \
+	nano \
+	whiptail \
+	openvpn \
+	dhcpcd5 \
+	dnsutils \
+	expect \
+	whiptail \
+	&& rm -rf /var/lib/apt/lists/*
+
 RUN curl -L https://install.pivpn.io -o install.sh
-RUN useradd pivpn
-EXPOSE 1194
+RUN useradd -m pivpn
+EXPOSE 1194/udp

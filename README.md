@@ -18,9 +18,9 @@ Options:
    -r --rand <amount>       Specify the amount of random data (100's of bytes) that you want your Docker container to be seeded with
 ```
 
-Note: Usage on ARM is not fully supported yet, although feel free to help out in this area.
+Note: Usage on ARM is not fully supported yet, although feel free to help out in this area. Also, PiVPN over TCP is not supported.
 
 # Credits & Contributions
 Visit PiVPN's GitHub at https://github.com/pivpn/pivpn.
 
-Contributions are always welcome! Just submit a pull request, and I'll review it.
+Contributions are always welcome! Just submit a pull request, and I'll review it. Please note that newest features are on the devel branch.
